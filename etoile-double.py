@@ -15,7 +15,7 @@ R2=M0[0]
 
 def print_usage() :
   print('usage [arguments] = [méthode dt nbre_revolutions]')
-  print('       methode                       : Euler, Cromer, Verlet, Odeint')
+  print('       methode                       : Euler, Cromer, Verlet')
   print('       dt (pas de temps)             : 0 < float < 1')
   print('       nbre_revolutions              : entier >= 1')
   exit()
@@ -82,21 +82,6 @@ def Verlet(M0, nbre_points, dt) :
     vx.append(vx[n] + 0.5*(ax + ax_p) * dt)
     vy.append(vy[n] + 0.5*(ay + ay_p) * dt)
   return [x, vx, y, vy]
-
-
-def Odeint(M0, nbre_points, dt) :
-  def f(m, t) :
-    x, vx, y, vy = deepcopy(m)
-    r1 = rayon(x, y) 
-    r2 = rayon(x-2, y)
-    #ax, ay
-    ax = -GM * ( (x / r1**3) + ( (x - 2) / r2**3) )
-    ay = -GM * ( (y / r1**3) + (y / r2**3) )  
-    return [vx, ax, vy, ay]
-  
-  t = np.linspace(0, dt*nbre_points, nbre_points)
-  result = odeint(f, [M0[0][0], M0[1][0], M0[2][0], M0[3][0]], t)
-  return [result[:, 0], result[:, 1], result[:, 2], result[:, 3]]
 
 
 def ecart_energie_totale(M0, nbre_points) :
@@ -194,7 +179,7 @@ if len( sys.argv ) == 1 :
 # methode
 try :
   methode = sys.argv[1]
-  if methode != 'Euler' and methode != 'Cromer' and methode != 'Odeint' and methode != 'Verlet' :
+  if methode != 'Euler' and methode != 'Cromer' and methode != 'Verlet' :
     print_usage()
 except ValueError :
   print_usage()
@@ -234,9 +219,6 @@ if methode == 'Cromer' :
   
 if methode == 'Verlet' : 
   x, vx, y, vy= deepcopy(Verlet(M0, nbre_points, dt))
-
-if methode == 'Odeint' : 
-  x, vx, y, vy= deepcopy(Odeint(M0, nbre_points, dt)) 
   
   
 print_figure(x, vx, y, vy, R1, R2, methode) 

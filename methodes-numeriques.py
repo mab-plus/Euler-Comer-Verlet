@@ -39,11 +39,11 @@ if len( sys.argv ) != 2 and len( sys.argv ) != 4 and len( sys.argv ) != 5 and le
   
 methode = sys.argv[1]
   
-if (methode == 'Euler' or methode == 'Cromer' or methode == 'Verlet' or methode == 'Odeint') and len( sys.argv ) == 4 :
+if (methode == 'Euler' or methode == 'Cromer' or methode == 'Verlet') and len( sys.argv ) == 4 :
   dt, nb_revolutions, delta, w = test_parametres(sys.argv[2], sys.argv[3], 0, 0)
-elif (methode == 'Verlet'or methode == 'Verlet2' or methode == 'Odeint') and len( sys.argv ) == 5 :
+elif (methode == 'Verlet'or methode == 'Verlet2') and len( sys.argv ) == 5 :
   dt, nb_revolutions, delta, w = test_parametres(sys.argv[2], sys.argv[3], 0, sys.argv[4])
-elif (methode == 'Verlet' or methode == 'Odeint') and len( sys.argv ) == 6 :
+elif (methode == 'Verlet') and len( sys.argv ) == 6 :
   dt, nb_points, delta, w = test_parametres(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
 else :
   print_usage()
@@ -74,8 +74,6 @@ if delta == 0 :
     M = deepcopy(Verlet(M0, nb_points*nb_revolutions, T/nb_points, delta, w))
   if methode == 'Verlet2' :
     M = deepcopy(Verlet2(M0, nb_points*nb_revolutions, T/nb_points, delta, w))
-  if methode == 'Odeint' :
-    M = deepcopy(Odeint(M0, nb_points*nb_revolutions, T/nb_points, delta, w))
     
   # resultats
   x, vx, y, vy = M
@@ -120,8 +118,6 @@ else :
     
   if methode == 'Verlet' :
     M = deepcopy(Verlet(M0, nb_points, dt, delta, w))
-  if methode == 'Odeint' :
-    M = deepcopy(Odeint(M0, nb_points, dt, delta, w))
   
   # resultats
   x, vx, y, vy = M

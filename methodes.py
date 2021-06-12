@@ -1,4 +1,4 @@
-from modules import deepcopy, np,odeint 
+from modules import deepcopy, np
 
 # force gravitationnelle
 global GM 
@@ -86,24 +86,6 @@ def Verlet2(M, nbre_points, dt, delta, w) :
     vx.append(vx[n] + 0.5*(ax + ax_p) * r**2 * dt)
     vy.append(vy[n] + 0.5*(ay + ay_p) * r**2 * dt)
   return [x, vx, y, vy]
-
-
-def Odeint(M0, nbre_points, dt, delta, w) :
-  def f(m, t) :
-    x = m[0]
-    vx = m[1]
-    y = m[2]
-    vy = m[3]
-    r = rayon(x, y) 
-    #ax, ay
-    ax = Fg(r, 2 + delta) * x / r + k(w)
-    ay = Fg(r, 2 + delta) * y / r
-    return [vx, ax, vy, ay]
-  
-  t = np.linspace(0, dt*nbre_points, nbre_points)
-  result = odeint(f, [M0[0][0], M0[1][0], M0[2][0], M0[3][0]], t)
-  return [result[:, 0], result[:, 1], result[:, 2], result[:, 3]]
-
 
 def parametres_orbitaux(M, dt, delta) :
   [x,vx,y,vy] = deepcopy(M)

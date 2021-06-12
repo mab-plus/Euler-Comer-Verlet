@@ -36,18 +36,18 @@ def test_parametres(dt, nb_revolutions, delta, w) :
 
 def print_usage() :
   print('usage [arguments] = [méthode dt nb_revolutions]')
-  print('       methode                       : Euler, Cromer, Verlet, Odeint')
+  print('       methode                       : Euler, Cromer, Verlet')
   print('       dt (pas de temps)             : 0 < float < 1')
   print('       nb_revolutions              : entier >= 1')
   
   print('usage [arguments] = [méthode dt nb_revolutions k]')
-  print('       methode                       : Verlet, Odeint')
+  print('       methode                       : Verlet')
   print('       dt (pas de temps)             : 0 < float < 1')
   print('       nb_revolutions              : entier >= 1')
   print('       k (force du vent galactique)  : float')
   
   print('usage [arguments] = [méthode dt nb_points delta k]')
-  print('       methode                       : Verlet, Verlet2, Odeint')
+  print('       methode                       : Verlet, Verlet2')
   print('       dt (pas de temps)             : 0 < float < 1')
   print('       nb_points                   : entier >= 1')
   print('       force en r^(2 + delta)        : float != -2')

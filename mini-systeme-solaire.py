@@ -11,7 +11,7 @@ M0 = [[x1], [vx1], [y1], [vy1], [x2], [vx2], [y2], [vy2]]
 
 def print_usage() :
   print('usage [arguments] = [méthode dt nbre_revolutions]')
-  print('       method                  : Cromer, Odeint')
+  print('       method                  : Cromer')
   print('       dt (step time)          : 0 < float < 1')
   print('       nb_revolutions          : entier >= 1')
   exit()
@@ -55,24 +55,6 @@ def Cromer(M0, nbre_points, dt) :
     y2.append(y2[n] + vy2[n + 1] * dt)
     
   return [x1, vx1, y1, vy1, x2, vx2, y2, vy2, R1, R2]
-
-def Odeint(M0, nbre_points, dt) :
-  def f(m, t) :
-    x1, vx1, y1, vy1, x2, vx2, y2, vy2 = deepcopy(m)
-    r1 = rayon(x1, y1) 
-    r2 = rayon(x2, y2)
-    r12 = rayon(x2 - x1, y2 - y1)
-    #ax1, ay1
-    ax1 = -GM * ( (x1 / r1**3) + 0.04*((x2 - x1)/ r12**3) )
-    ay1 = -GM * ( (y1 / r1**3) + 0.04*((y2 - y1)/ r12**3) )
-    #ax2, ay2 
-    ax2 = -GM * ( (x2 / r2**3) - 0.001*((x2 - x1)/ r12**3) )
-    ay2 = -GM * ( (y2 / r2**3) - 0.001*((y2 - y1)/ r12**3) )
-    return [vx1, ax1, vy1, ay1, vx2, ax2, vy2, ay2]
-  
-  t = np.linspace(0, dt*nbre_points, nbre_points)
-  result = odeint(f, [M0[0][0], M0[1][0], M0[2][0], M0[3][0], M0[4][0], M0[5][0], M0[6][0], M0[7][0]], t)
-  return [result[:, 0], result[:, 1], result[:, 2], result[:, 3], result[:, 4], result[:, 5], result[:, 6], result[:, 7]]
 
 def ecart_energie_totale(M, nbre_points) :
   [x1, vx1, y1, vy1, x2, vx2, y2, vy2, r1, r2] = deepcopy(M)
@@ -160,7 +142,7 @@ if len( sys.argv ) == 1 :
 # methode
 try :
   methode = sys.argv[1]
-  if methode != 'Cromer' and methode != 'Odeint' :
+  if methode != 'Cromer':
     print_usage()
 except ValueError :
   print_usage()
@@ -198,10 +180,6 @@ print('\t(vx2, vy2) = ({0}, {1})'.format(vx2, vy2))
 if methode == 'Cromer' :
   x1, vx1, y1, vy1, x2, vx2, y2, vy2, R1, R2 = deepcopy(Cromer(M0, nbre_points, dt))  
 
-if methode == 'Odeint' : 
-  x1, vx1, y1, vy1, x2, vx2, y2, vy2 = deepcopy(Odeint(M0, nbre_points, dt)) 
-  R1=M0[0]
-  R2=M0[4]
 print_figure(x1, vx1, y1, vy1, x2, vx2, y2, vy2, R1, R2, methode) 
 
 M = x1, vx1, y1, vy1, x2, vx2, y2, vy2, R1, R2
