@@ -14,7 +14,7 @@ R1=M0[0]
 R2=M0[0]
 
 def print_usage() :
-  print('usage [arguments] = [méthode dt nbre_revolutions]')
+  print('use [arguments] = [méthode dt nbre_revolutions]')
   print('       methode                       : Euler, Cromer, Verlet')
   print('       dt (pas de temps)             : 0 < float < 1')
   print('       nbre_revolutions              : entier >= 1')
